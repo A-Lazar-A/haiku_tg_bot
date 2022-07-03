@@ -17,5 +17,3 @@ async def photo_parser(message):
     out = open("temp/img.jpg", "wb")
     out.write(im.content)
     out.close()
-
-
