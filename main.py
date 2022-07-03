@@ -6,7 +6,6 @@ from telebot.async_telebot import AsyncTeleBot
 from telebot import types
 from os import environ, remove
 
-
 bot = AsyncTeleBot(environ['BOT_TOKEN'])
 
 
@@ -21,13 +20,17 @@ async def send_welcome(message):
 
 @bot.message_handler(func=lambda message: message.text == 'Хокку')
 async def echo_message(message):
-    await photo_parser(f'Японская живопись')
-    text = ''.join(await rnd_haiku())
-    await write_on_photo(text)
-    photo = open('temp/img.jpg', 'rb')
-    await bot.send_photo(message.from_user.id, photo, caption=text)
-    photo.close()
-    remove('temp/img.jpg')
+    try:
+        await photo_parser(f'Японская живопись')
+        text = ''.join(await rnd_haiku())
+        await write_on_photo(text)
+        photo = open('temp/img.jpg', 'rb')
+        await bot.send_photo(message.from_user.id, photo, caption=text)
+        photo.close()
+        remove('temp/img.jpg')
+    except Exception as e:
+        print(e)
+        await bot.send_message(message.from_user.id, 'Боту плохо, повторите запрос через какое-то время')
 
 
 async def main():
