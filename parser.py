@@ -7,7 +7,9 @@ from fake_useragent import UserAgent
 async def photo_parser(message):
     ua = UserAgent()
     req = requests.get("https://yandex.ru/images/search?text=" + message, headers={'User-Agent': ua.random})
+    print(req)
     ph_links = list(filter(lambda x: '.jpg' in x, re.findall('''(?<=["'])[^"']+''', req.text)))
+    print(ph_links)
     ph_list = []
 
     for i in range(len(ph_links)):
